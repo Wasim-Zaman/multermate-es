@@ -1,0 +1,31 @@
+{
+  "name": "multermate-es",
+  "version": "1.0.0",
+  "description": "A robust and flexible file upload utility built on top of Multer, providing advanced file handling capabilities for Node.js applications.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "multer",
+    "file upload",
+    "middleware",
+    "node.js",
+    "configurable"
+  ],
+  "author": "Wasim Zaman",
+  "license": "MIT",
+  "dependencies": {
+    "multer": "1.4.5-lts.1",
+    "uuid": "^10.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wasim-Zaman/multermate.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Wasim-Zaman/multermate/issues"
+  },
+  "homepage": "https://github.com/Wasim-Zaman/multermate#readme"
+}
