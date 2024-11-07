@@ -24,7 +24,7 @@ npm install multermate
 ## Basic Usage
 
 ```javascript
-const { uploadSingle, uploadMultiple, deleteFile } = require("multermate");
+import { uploadSingle, uploadMultiple, deleteFile } from "multermate-es";
 ```
 
 ## Upload Configurations
@@ -185,10 +185,13 @@ Deletes a file from the filesystem:
 ### Supported File Types
 
 ```javascript
-const ALLOWED_FILE_TYPES = {
-  images: ["jpeg", "jpg", "png", "gif"],
-  videos: ["mp4", "mpeg", "ogg", "webm", "avi"],
-  pdfs: ["pdf"],
+const ALLOWED_MIME_TYPES = {
+  images: ["image/jpeg", "image/jpg", "image/png", "image/gif"],
+  videos: ["video/mp4", "video/mpeg", "video/ogg", "video/webm", "video/avi"],
+  pdfs: ["application/pdf"],
+  all: [
+    /* combination of all above types */
+  ],
 };
 ```
 
