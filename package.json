@@ -22,10 +22,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Wasim-Zaman/multermate.git"
+    "url": "git+https://github.com/Wasim-Zaman/multermate-es.git"
   },
   "bugs": {
-    "url": "https://github.com/Wasim-Zaman/multermate/issues"
+    "url": "https://github.com/Wasim-Zaman/multermate-es/issues"
   },
-  "homepage": "https://github.com/Wasim-Zaman/multermate#readme"
+  "homepage": "https://github.com/Wasim-Zaman/multermate-es#readme"
 }
