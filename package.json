@@ -1,6 +1,6 @@
 {
   "name": "multermate-es",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A robust and flexible file upload utility built on top of Multer, providing advanced file handling capabilities for Node.js applications.",
   "main": "index.js",
   "type": "module",

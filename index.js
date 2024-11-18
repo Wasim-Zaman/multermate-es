@@ -1,9 +1,21 @@
+/**
+ * @fileoverview Multer configuration utility for handling file uploads with extended functionality
+ * @module multer-config-util
+ */
+
 import { promises as fs } from "fs";
 import multer from "multer";
 import path from "path";
 import { v4 as uuidv4 } from "uuid";
 
-// Constants for allowed MIME types
+/**
+ * @constant {Object} ALLOWED_MIME_TYPES
+ * @description Predefined MIME types organized by category
+ * @property {string[]} images - Allowed image MIME types
+ * @property {string[]} videos - Allowed video MIME types
+ * @property {string[]} pdfs - Allowed PDF MIME types
+ * @property {string[]} all - All allowed MIME types combined
+ */
 const ALLOWED_MIME_TYPES = {
   images: ["image/jpeg", "image/jpg", "image/png", "image/gif"],
   videos: ["video/mp4", "video/mpeg", "video/ogg", "video/webm", "video/avi"],
@@ -154,19 +166,74 @@ const uploadFields = (fields) => {
   return multerInstance.fields(fieldConfigs);
 };
 
-// Export functions to configure multer and available file types
+/**
+ * Creates a Multer middleware instance for handling single file uploads
+ *
+ * @function uploadSingle
+ * @param {Object} options - Configuration options
+ * @param {string} [options.destination='uploads'] - Upload destination directory
+ * @param {string} [options.filename='file'] - Form field name for the file
+ * @param {string[]} [options.fileTypes=[]] - Allowed file type categories (e.g., ['images', 'videos'])
+ * @param {string[]} [options.customMimeTypes=[]] - Custom allowed MIME types
+ * @param {number} [options.fileSizeLimit=52428800] - Max file size in bytes (default 50MB)
+ * @param {boolean} [options.preservePath=false] - Whether to preserve original file path
+ * @returns {Function} Multer middleware for single file upload
+ * @example
+ * const upload = uploadSingle({ fileTypes: ['images'], fileSizeLimit: 5 * 1024 * 1024 });
+ * app.post('/upload', upload, (req, res) => { ... });
+ */
 export const uploadSingle = (options = {}) => {
   const multerInstance = configureMulter(options);
   return multerInstance.single(options.filename || "file");
 };
 
+/**
+ * Creates a Multer middleware instance for handling multiple file uploads across different fields
+ *
+ * @function uploadMultiple
+ * @param {Object} options - Configuration options
+ * @param {string} [options.destination='uploads'] - Upload destination directory
+ * @param {Array<Object>} [options.fields=[]] - Field configurations
+ * @param {string} options.fields[].name - Form field name
+ * @param {number} [options.fields[].maxCount=10] - Maximum number of files for this field
+ * @param {string[]} [options.fields[].fileTypes] - Allowed file types for this field
+ * @param {string[]} [options.customMimeTypes=[]] - Custom allowed MIME types
+ * @param {number} [options.fileSizeLimit=52428800] - Max file size in bytes (default 50MB)
+ * @param {boolean} [options.preservePath=false] - Whether to preserve original file path
+ * @returns {Function} Multer middleware for multiple field uploads
+ * @example
+ * const upload = uploadMultiple({
+ *   fields: [
+ *     { name: 'avatar', maxCount: 1, fileTypes: ['images'] },
+ *     { name: 'documents', maxCount: 5, fileTypes: ['pdfs'] }
+ *   ]
+ * });
+ * app.post('/upload', upload, (req, res) => { ... });
+ */
 export const uploadMultiple = (options = {}) => {
   const multerInstance = configureMulter(options);
   return multerInstance.fields(options.fields || []);
 };
 
+/**
+ * List of all supported file type categories
+ * @constant {string[]} ALLOWED_FILE_TYPES
+ */
 export const ALLOWED_FILE_TYPES = Object.keys(ALLOWED_MIME_TYPES);
 
+/**
+ * Deletes a file from the filesystem
+ *
+ * @async
+ * @function deleteFile
+ * @param {string} filePath - Path to the file to be deleted
+ * @returns {Promise<boolean>} True if deletion was successful, false otherwise
+ * @example
+ * const deleted = await deleteFile('./uploads/example.jpg');
+ * if (deleted) {
+ *   console.log('File successfully deleted');
+ * }
+ */
 export const deleteFile = async (filePath) => {
   try {
     await fs.unlink(filePath);
